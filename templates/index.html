@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#129d3f">
+    <title>Cambodia Traffic Sign Recognition | MPWT</title>
+    <link rel="icon" href="/static/mpwt_Icon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/static/style.css">
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="MPWT traffic sign recognition home">
+        <img src="/static/mpwt_Icon.svg" alt="MPWT logo">
+        <span class="brand-copy">
+          <strong>MPWT</strong>
+          <span>Traffic Sign Intelligence</span>
+        </span>
+      </a>
+      <span class="system-status"><span class="status-dot"></span> Local AI workspace</span>
+    </header>
+
+    <main class="page-shell">
+      <section class="intro">
+        <p class="eyebrow">CAMBODIA ROAD SAFETY</p>
+        <h1>Traffic Signs Detection</h1>
+        <p class="intro-copy">Detect Cambodian road signs from an image, video, or your camera.</p>
+      </section>
+
+      <section class="workspace" aria-label="Traffic sign analysis">
+        <aside class="control-panel">
+          <div class="panel-heading">
+            <span class="step-number">01</span>
+            <div>
+              <h2>Choose an input</h2>
+              <p>Select how you want to analyze.</p>
+            </div>
+          </div>
+
+          <div class="mode-tabs" role="tablist" aria-label="Input type">
+            <button class="mode-tab active" type="button" role="tab" aria-selected="true" data-mode="image">Image</button>
+            <button class="mode-tab" type="button" role="tab" aria-selected="false" data-mode="video">Video</button>
+            <button class="mode-tab" type="button" role="tab" aria-selected="false" data-mode="webcam">Webcam</button>
+          </div>
+
+          <div class="upload-box" id="upload-box">
+            <input id="file-input" type="file" accept="image/*" hidden>
+            <div class="upload-mark" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M12 16V4m0 0L7.5 8.5M12 4l4.5 4.5M5 14.5v4A1.5 1.5 0 0 0 6.5 20h11a1.5 1.5 0 0 0 1.5-1.5v-4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <strong id="upload-title">Drop an image here</strong>
+            <span class="upload-subtitle" id="upload-subtitle">or browse files from your device</span>
+            <button class="browse-button" type="button" id="browse-button">Choose image</button>
+            <span class="file-note" id="file-note">JPG, PNG or WEBP · up to 3 MB on Vercel</span>
+          </div>
+
+          <div class="sample-gallery" id="sample-gallery" aria-label="Try a sample image">
+            <span class="sample-heading">OR TRY A SAMPLE</span>
+            <div class="sample-grid">
+              <button class="sample-card" type="button" data-sample="sample1.jpg" aria-label="Try sample 1: speed limit sign">
+                <img src="/static/sample1.jpg" alt="Cambodian road with slow-down and speed-limit signs" loading="lazy">
+                <span>Speed limit</span>
+              </button>
+              <button class="sample-card" type="button" data-sample="sample2.jpg" aria-label="Try sample 2: school crossing sign">
+                <img src="/static/sample2.jpg" alt="Cambodian road with a school crossing sign" loading="lazy">
+                <span>School crossing</span>
+              </button>
+              <button class="sample-card" type="button" data-sample="sample3.jpg" aria-label="Try sample 3: Cambodian road signs">
+                <img src="/static/sample3.jpg" alt="Cambodian road with roadside signs and traffic" loading="lazy">
+                <span>Road signs</span>
+              </button>
+            </div>
+          </div>
+
+          <button class="camera-button" type="button" id="camera-button" hidden>
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7.5A1.5 1.5 0 0 1 5.5 6h2l1.3-2h6.4l1.3 2h2A1.5 1.5 0 0 1 20 7.5v10a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 17.5v-10Z" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12.5" r="3.2" stroke="currentColor" stroke-width="1.6"/></svg>
+            <span>Start webcam</span>
+          </button>
+
+          <div class="pipeline-card">
+            <span class="pipeline-label">ANALYSIS PIPELINE</span>
+            <div class="pipeline-step">
+              <span class="pipeline-icon detector-icon">01</span>
+              <span><strong>Sign detection</strong><small>Find and locate road signs</small></span>
+              <span class="pipeline-check" aria-label="Enabled">✓</span>
+            </div>
+            <div class="pipeline-step" id="recognition-step">
+              <span class="pipeline-icon recognition-icon">02</span>
+              <span><strong>Sign recognition</strong><small>Identify each sign from its crop</small></span>
+              <span class="pipeline-check" aria-label="Enabled">✓</span>
+            </div>
+            <p class="pipeline-note" id="pipeline-note">Both models run on uploaded images.</p>
+          </div>
+          <p class="privacy-note">
+            <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><rect x="4" y="8" width="12" height="9" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M7 8V6a3 3 0 0 1 6 0v2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            Uploads are processed temporarily in the cloud.
+          </p>
+        </aside>
+
+        <section class="results-panel" aria-label="Analysis results">
+          <div class="results-header">
+            <div class="panel-heading">
+              <span class="step-number step-number-pink">02</span>
+              <div>
+                <h2>Detection results</h2>
+                <p id="result-subtitle">Your analyzed image will appear here.</p>
+              </div>
+            </div>
+            <span class="result-badge" id="result-badge" hidden></span>
+          </div>
+
+          <div class="media-stage empty-state" id="media-stage">
+            <div class="empty-content" id="empty-content">
+              <div class="empty-graphic" aria-hidden="true">
+                <span class="graphic-sun"></span>
+                <span class="graphic-hill hill-back"></span>
+                <span class="graphic-hill hill-front"></span>
+                <span class="graphic-sign"><i></i></span>
+              </div>
+              <strong>Ready when you are</strong>
+              <span>Choose an image, video, or start your webcam to begin.</span>
+            </div>
+            <div class="media-content" id="media-content" hidden>
+              <img class="image-result" id="image-result" alt="Image with detected and recognized traffic signs" hidden>
+              <video id="source-video" controls playsinline muted hidden></video>
+              <canvas id="overlay-canvas" hidden></canvas>
+              <div class="processing-overlay" id="processing-overlay" hidden>
+                <span class="spinner"></span><span id="processing-label">Analyzing image…</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="summary-row">
+            <span class="summary-label">DETECTIONS</span>
+            <span class="detection-count" id="detection-count">—</span>
+          </div>
+          <div class="detection-list" id="detection-list" aria-live="polite">
+            <p class="list-placeholder">Detected signs and confidence scores will show here.</p>
+          </div>
+          <p class="error-message" id="error-message" role="alert" hidden></p>
+        </section>
+      </section>
+
+      <footer class="page-footer">
+        <span>Ministry of Public Works and Transport</span>
+        <span class="footer-separator"></span>
+        <span>Cambodia Traffic Sign Recognition</span>
+        <span class="footer-separator"></span>
+        <span>By Mr.SOPHAL Ratitya</span>
+      </footer>
+    </main>
+    <script src="/static/app.js" defer></script>
+  </body>
+</html>
